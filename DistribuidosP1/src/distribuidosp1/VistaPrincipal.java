@@ -5,6 +5,7 @@
  */
 package distribuidosp1;
 
+import ModuloDeElementosEstructurantes.ElementoEstructuranteL;
 import ModuloDeElementosEstructurantes.ElementoEstructuranteX;
 import java.awt.Image;
 import java.io.BufferedReader;
@@ -223,16 +224,18 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         int[][] test;
-        ElementoEstructuranteX x = new ElementoEstructuranteX(matrizCompleta);
+        ElementoEstructuranteL x = new ElementoEstructuranteL(matrizCompleta);
         test=x.dilatacion();
         this.imprimirMatriz(test);
-        //x = new ElementoEstructuranteX(matrizCompleta);
-        //test=x.erosion();
-        //this.imprimirMatriz(test);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        int[][] test;
+        ElementoEstructuranteL x = new ElementoEstructuranteL(matrizCompleta);
+        test=x.erosion();
+        this.imprimirMatriz(test);
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
    public void imprimirMatriz(int[][] matriz){
@@ -242,6 +245,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
            }
            System.out.println(" ");
        }
+       System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------v----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------v-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
    }
    
    public void erosion(){

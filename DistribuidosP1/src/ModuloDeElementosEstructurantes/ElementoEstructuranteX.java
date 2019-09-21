@@ -22,7 +22,7 @@ public class ElementoEstructuranteX extends ElementoEstructurante{
     @Override
     public int[][] erosion() {
         int[][] matriz = super.getMatriz();
-        int[][] nuevaMatriz = new int[matriz.length][matriz.length];
+        int[][] nuevaMatriz = new int[matriz.length][matriz[0].length];
         for (int i = 1; i < matriz.length-1; i++) {
             for (int f = 1; f < matriz[i].length-1; f++) {
                 if(matriz[i-1][f-1]==0 && matriz[i+1][f-1]==0 && matriz[i-1][f+1]==0 && matriz[i+1][f+1]==0){

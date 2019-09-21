@@ -5,8 +5,6 @@
  */
 package ModuloDeElementosEstructurantes;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author xebae

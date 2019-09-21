@@ -5,6 +5,7 @@
  */
 package distribuidosp1;
 
+import ModuloDeElementosEstructurantes.ElementoEstructuranteX;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.File;
@@ -214,23 +215,30 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 this.matrizCompletaAux[i][j] = nivel;
             }
         }
-        this.imprimirMatriz();
+        this.imprimirMatriz(matrizCompleta);
         System.out.println("lista las matrices");
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        int[][] test;
+        ElementoEstructuranteX x = new ElementoEstructuranteX(matrizCompleta);
+        test=x.dilatacion();
+        this.imprimirMatriz(test);
+        //x = new ElementoEstructuranteX(matrizCompleta);
+        //test=x.erosion();
+        //this.imprimirMatriz(test);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-   public void imprimirMatriz(){
-       for (int i = 0; i < this.matrizCompleta.length; i++) {
-           for (int j = 0; j < this.matrizCompleta[i].length; j++) {
-               System.out.print(this.matrizCompleta[i][j]+" ");
+   public void imprimirMatriz(int[][] matriz){
+       for (int i = 0; i < matriz.length; i++) {
+           for (int j = 0; j < matriz[i].length; j++) {
+               System.out.print(matriz[i][j]+" ");
            }
            System.out.println(" ");
        }

@@ -16,12 +16,12 @@ public class ElementoEstructuranteGuion extends ElementoEstructurante{
     }
 
     @Override
-    public void erosion() {
+    public int[][] erosion() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void dilatacion() {
+    public int[][] dilatacion() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

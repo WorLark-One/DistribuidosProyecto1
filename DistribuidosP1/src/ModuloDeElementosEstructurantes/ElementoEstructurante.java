@@ -44,6 +44,6 @@ public abstract class ElementoEstructurante extends Thread{
         this.opcion = opcion;
     }
     
-    public abstract void erosion();
-    public abstract void dilatacion();
+    public abstract int[][] erosion();
+    public abstract int[][] dilatacion();
 }

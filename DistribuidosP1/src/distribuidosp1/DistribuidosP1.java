@@ -16,8 +16,9 @@ public class DistribuidosP1 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Vista v = new Vista();
+        VistaPrincipal v = new VistaPrincipal();
         v.setVisible(true);
+        
     }
     
 }

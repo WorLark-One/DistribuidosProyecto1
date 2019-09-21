@@ -21,6 +21,8 @@ import javax.swing.JOptionPane;
  */
 public class VistaPrincipal extends javax.swing.JFrame {
     private int[][] matrizCompleta;
+    private int[][] matrizCompletaAux;
+    private int minimo;
     /**
      * Creates new form VistaPrincipal
      */
@@ -175,11 +177,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
             cadenaMagica = archivo.readLine();
             System.out.println ("Cadena Magica: "+cadenaMagica);
 
-
+            String a = archivo.readLine();
+            System.out.println(a);
             dimensiones = archivo.readLine().split(" ");
             System.out.println ("Ancho: "+dimensiones[0]+" Alto: "+dimensiones[1]);
 
-            nivelGris = archivo.readLine();
+            minimo = Integer.parseInt(archivo.readLine());
             imagen = " ";
 
             String str = archivo.readLine();
@@ -194,21 +197,25 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }
         
         int alto = Integer.parseInt(dimensiones[1]);
-        int ancho = Integer.parseInt(dimensiones[1]);
+        int ancho = Integer.parseInt(dimensiones[0]);
         this.matrizCompleta = new int[alto][ancho];
+        this.matrizCompletaAux = new int[alto][ancho];
         int nivel = 0;
         for(int i=0 ; i<alto ; i++){
             for(int j=0 ; j<ancho ; j++){
                 nivel = ((int)imagen.charAt(i*ancho+j));
-                this.matrizCompleta[i][j] = nivel;
+                
                 //Esto lo hago por el error para que sea un valor comprendido entre 0-255
                 //No debería pasar esto.  
-                if(nivel>255){
+                if(nivel>this.minimo){
                     nivel = 255;
                 }
+                this.matrizCompleta[i][j] = nivel;
+                this.matrizCompletaAux[i][j] = nivel;
             }
         }
         this.imprimirMatriz();
+        System.out.println("lista las matrices");
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -227,6 +234,35 @@ public class VistaPrincipal extends javax.swing.JFrame {
            }
            System.out.println(" ");
        }
+   }
+   
+   public void erosion(){
+//       
+//        for (int i = 0; i < this.matrizCompleta.length; i++) {
+//            for (int j = 0; j < this.matrizCompleta[i].length; j++) {
+//                int min = 
+//            }
+//        }
+//       
+//        for(int i=0; i<this.matrizCompleta; i++){
+//            for(j=1; j<colu-1; j++){
+//                    int min =255;
+//                    int k[5];
+//                    k[0] = dibu[i][j-1];
+//                    k[1] = dibu[i-1][j];
+//                    k[2] = dibu[i][j];
+//                    k[3] = dibu[i][j+1];
+//                    k[4] = dibu[i+1][j];
+//                    int l;
+//                    for(l=0;l<5;l++){
+//                            if(k[l]<min){
+//                                    min = k[l];
+//                            }
+//                    }
+//                    otra[i][j]=min;
+//            }
+//        }
+   
    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

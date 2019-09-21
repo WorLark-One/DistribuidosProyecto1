@@ -17,7 +17,6 @@ public class GestorParalelo {
 
     /**
      * Ingrese la cantidad de hilos
-     * @param hilos 
      */
     public GestorParalelo() {
         this.elementos = new ArrayList<>();

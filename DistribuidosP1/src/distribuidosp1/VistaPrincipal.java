@@ -9,9 +9,12 @@ import ModuloDeElementosEstructurantes.ElementoEstructuranteL;
 import ModuloDeElementosEstructurantes.ElementoEstructuranteX;
 import java.awt.Image;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.StringJoiner;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -24,7 +27,7 @@ import javax.swing.JOptionPane;
 public class VistaPrincipal extends javax.swing.JFrame {
     private int[][] matrizCompleta;
     private int[][] matrizCompletaAux;
-    private int minimo;
+    private String minimo;
     /**
      * Creates new form VistaPrincipal
      */
@@ -184,15 +187,41 @@ public class VistaPrincipal extends javax.swing.JFrame {
             dimensiones = archivo.readLine().split(" ");
             System.out.println ("Ancho: "+dimensiones[0]+" Alto: "+dimensiones[1]);
 
-            minimo = Integer.parseInt(archivo.readLine());
+            minimo = archivo.readLine();
+            System.out.println("");
             imagen = " ";
-
-            String str = archivo.readLine();
-
-            while(str!=null){
-             imagen +=str;
-             str = archivo.readLine();
+            
+            String ruta = "pruebaGuardado.pgm";
+            File filite = new File(ruta);
+//            // Si el archivo no existe es creado
+//            
+            if (!filite .exists()) {
+                filite .createNewFile();
             }
+            FileWriter fw = new FileWriter(filite );
+            BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(cadenaMagica);
+                bw.newLine();
+                bw.write(a);
+                bw.newLine();
+                bw.write(dimensiones[0]+" "+dimensiones[1]);
+                bw.newLine();
+                bw.write(minimo);
+                bw.newLine();
+//                
+//                
+                String str = archivo.readLine();
+                
+                while(str!=null){
+                    imagen +=str;
+                    bw.write(str);
+                    bw.newLine();
+                    str = archivo.readLine();
+//                    
+                }
+                bw.close();
+               
+////            }
         }catch(Exception exc)
         {
          System.out.println ("Error leyendo archivo");
@@ -205,18 +234,27 @@ public class VistaPrincipal extends javax.swing.JFrame {
         int nivel = 0;
         for(int i=0 ; i<alto ; i++){
             for(int j=0 ; j<ancho ; j++){
-                nivel = ((int)imagen.charAt(i*ancho+j));
+                char a = imagen.charAt(i*ancho+j);
+                
+                System.out.println("Char: "+a);
+                nivel = (int) a;
+                System.out.println("nivel: "+nivel);
                 
                 //Esto lo hago por el error para que sea un valor comprendido entre 0-255
                 //No debería pasar esto.  
-                if(nivel>this.minimo){
+                if(nivel>255){
                     nivel = 255;
                 }
                 this.matrizCompleta[i][j] = nivel;
                 this.matrizCompletaAux[i][j] = nivel;
             }
         }
-        this.imprimirMatriz(matrizCompleta);
+        
+        
+        
+           
+        
+        //this.imprimirMatriz(matrizCompleta);
         System.out.println("lista las matrices");
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -226,7 +264,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         int[][] test;
         ElementoEstructuranteL x = new ElementoEstructuranteL(matrizCompleta);
         test=x.dilatacion();
-        this.imprimirMatriz(test);
+        //this.imprimirMatriz(test);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -234,7 +272,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
         int[][] test;
         ElementoEstructuranteL x = new ElementoEstructuranteL(matrizCompleta);
         test=x.erosion();
-        this.imprimirMatriz(test);
+        this.crearArchivo(test);
+       // this.imprimirMatriz(test);
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -276,6 +315,58 @@ public class VistaPrincipal extends javax.swing.JFrame {
 //        }
    
    }
+   
+   private void crearArchivo(int[][] m){
+       try {
+            String ruta = "pruebaGuardado.pgm";
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            
+            
+            
+            
+            bw.write("P5");
+            bw.newLine();
+            bw.write("# Created by IrfanView");
+            bw.newLine();
+            bw.write(m[0].length+" "+m.length);
+            bw.newLine();
+            bw.write("255");
+            bw.newLine();
+            
+            
+            char[] a = new char[m[0].length*m.length];
+            int f = 0;
+            for (int i = 0; i < m.length; i++) {
+                for (int j = 0; j < m[i].length; j++) {
+                    a[f] = (char) m[i][j];
+                    f ++;
+                }
+            }
+            bw.write(String.valueOf(a));
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+   
+   
+        }
+   }
+   
+   
+//   private static String concat(char... strs) {
+//    CharJoiner joiner = new StringJoiner(" ");
+//    for (char str : strs) {
+//        joiner.add(str);
+//    }
+//    return joiner.toString();
+//}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

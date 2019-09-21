@@ -149,7 +149,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
 //            return;
 //        }
 //        if (flag1) {
-//            JOptionPane.showMessageDialog(null, "La imagen fue guardada con éxito");
+//            JOptionPane.showMessageDialog(null, "La imagen fue guardada con ??xito");
 //        }
 //        else{
 //            JOptionPane.showMessageDialog(null, "El evento fue cancelado");
@@ -158,17 +158,17 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         //DATOS DE LA IMAGEN
  
-        //P2: Los valores de los píxeles vienen en formato ASCII (es decir como cifras numéricas enteras entre 0 y 255).
-        //P5: Los valores de los píxeles vienen en formato Binario (es decir la información de cada píxel viene expresada en un byte).
+        //P2: Los valores de los p??xeles vienen en formato ASCII (es decir como cifras num??ricas enteras entre 0 y 255).
+        //P5: Los valores de los p??xeles vienen en formato Binario (es decir la informaci??n de cada p??xel viene expresada en un byte).
         String cadenaMagica;
 
         //Indica las dimensiones de la imagen. Ancho y alto.
         String dimensiones[] = new String[2];
 
-        //Indica el valor máximo del nivel de gris.
+        //Indica el valor m??ximo del nivel de gris.
         String nivelGris;
 
-        //Representación de toda la imagen.
+        //Representaci??n de toda la imagen.
         String imagen = null;
 
         
@@ -191,35 +191,35 @@ public class VistaPrincipal extends javax.swing.JFrame {
             System.out.println("");
             imagen = " ";
             
-            String ruta = "pruebaGuardado.pgm";
-            File filite = new File(ruta);
-//            // Si el archivo no existe es creado
-//            
-            if (!filite .exists()) {
-                filite .createNewFile();
-            }
-            FileWriter fw = new FileWriter(filite );
-            BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(cadenaMagica);
-                bw.newLine();
-                bw.write(a);
-                bw.newLine();
-                bw.write(dimensiones[0]+" "+dimensiones[1]);
-                bw.newLine();
-                bw.write(minimo);
-                bw.newLine();
+//            String ruta = "pruebaGuardado.pgm";
+//            File filite = new File(ruta);
+////            // Si el archivo no existe es creado
+////            
+//            if (!filite .exists()) {
+//                filite .createNewFile();
+//            }
+//            FileWriter fw = new FileWriter(filite );
+//            BufferedWriter bw = new BufferedWriter(fw);
+//                bw.write(cadenaMagica);
+//                bw.newLine();
+//                bw.write(a);
+//                bw.newLine();
+//                bw.write(dimensiones[0]+" "+dimensiones[1]);
+//                bw.newLine();
+//                bw.write(minimo);
+//                bw.newLine();
 //                
 //                
                 String str = archivo.readLine();
                 
                 while(str!=null){
                     imagen +=str;
-                    bw.write(str);
-                    bw.newLine();
+//                    bw.write(str);
+//                    bw.newLine();
                     str = archivo.readLine();
 //                    
                 }
-                bw.close();
+//                bw.close();
                
 ////            }
         }catch(Exception exc)
@@ -236,12 +236,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
             for(int j=0 ; j<ancho ; j++){
                 char a = imagen.charAt(i*ancho+j);
                 
-                System.out.println("Char: "+a);
+                //System.out.println("Char: "+a);
                 nivel = (int) a;
-                System.out.println("nivel: "+nivel);
+                //System.out.println("nivel: "+nivel);
                 
                 //Esto lo hago por el error para que sea un valor comprendido entre 0-255
-                //No debería pasar esto.  
+                //No deber??a pasar esto.  
                 if(nivel>255){
                     nivel = 255;
                 }
@@ -264,6 +264,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         int[][] test;
         ElementoEstructuranteL x = new ElementoEstructuranteL(matrizCompleta);
         test=x.dilatacion();
+        this.crearArchivo(test);
         //this.imprimirMatriz(test);
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -341,15 +342,22 @@ public class VistaPrincipal extends javax.swing.JFrame {
             bw.newLine();
             
             
-            char[] a = new char[m[0].length*m.length];
-            int f = 0;
+            //char[] a = new char[m[0].length*m.length];
+            
             for (int i = 0; i < m.length; i++) {
+                char[] a = new char[m[i].length];
+                int f = 0;
                 for (int j = 0; j < m[i].length; j++) {
+                    //System.out.println(m[i][j]);
                     a[f] = (char) m[i][j];
                     f ++;
                 }
+                bw.write(String.valueOf(a));
+                if (i!=m.length-1) {
+                    bw.newLine();
+                }
             }
-            bw.write(String.valueOf(a));
+            
             bw.close();
         } catch (Exception e) {
             e.printStackTrace();

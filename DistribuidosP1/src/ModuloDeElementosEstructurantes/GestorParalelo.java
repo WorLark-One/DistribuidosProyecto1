@@ -67,7 +67,7 @@ public class GestorParalelo {
     public ArrayList<int[][]> separarMatriz(int hilos){
         ArrayList<int[][]> lista = new ArrayList<>();
         
-        //metodo para separar
+        //metodo para separar   
         
         return lista;
     } 

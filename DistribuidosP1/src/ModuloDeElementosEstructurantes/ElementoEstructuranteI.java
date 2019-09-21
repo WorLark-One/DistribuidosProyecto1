@@ -5,31 +5,50 @@
  */
 package ModuloDeElementosEstructurantes;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  *
  * @author xebae
  */
 public class ElementoEstructuranteI extends ElementoEstructurante{
 
+    /**
+     * 
+     * @param matriz 
+     */
     public ElementoEstructuranteI(int[][] matriz) {
         super(matriz);
     }
 
+    /**
+     * 
+     * @param i
+     * @param matriz
+     * @param monitor
+     * @param opcion 
+     */
     public ElementoEstructuranteI(int i, int[][] matriz, GestorParalelo monitor, String opcion) {
         super(i, matriz, monitor, opcion);
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public int[][] erosion() {
         int[][] matriz = super.getMatriz();
         int[][] nuevaMatriz = new int[matriz.length][matriz[0].length];
         for (int i = 1; i < matriz.length-1; i++) {
             for (int f = 1; f < matriz[i].length-1; f++) {
-                if(matriz[i-1][f]==0 && matriz[i+1][f]==0){
-                    nuevaMatriz[i][f]=0;
-                }else{
-                    nuevaMatriz[i][f]=255;
-                }
+                ArrayList<Integer> lista = new ArrayList<>();
+                lista.add(matriz[i-1][f]);
+                lista.add(matriz[i+1][f]);
+                lista.add(matriz[i][f]);
+                Collections.sort(lista);
+                nuevaMatriz[i][f]=lista.get(0);
             }
         }
         if(super.getMonitor()!=null){
@@ -38,17 +57,22 @@ public class ElementoEstructuranteI extends ElementoEstructurante{
         return nuevaMatriz;
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public int[][] dilatacion() {
         int[][] matriz = super.getMatriz();
         int[][] nuevaMatriz = new int[matriz.length][matriz[0].length];
         for (int i = 1; i < matriz.length-1; i++) {
             for (int f = 1; f < matriz[i].length-1; f++) {
-                if(matriz[i-1][f]==255 && matriz[i+1][f]==255){
-                    nuevaMatriz[i][f]=255;
-                }else{
-                    nuevaMatriz[i][f]=0;
-                }
+                ArrayList<Integer> lista = new ArrayList<>();
+                lista.add(matriz[i-1][f]);
+                lista.add(matriz[i+1][f]);
+                lista.add(matriz[i][f]);
+                Collections.sort(lista);
+                nuevaMatriz[i][f]=lista.get(lista.size()-1);
             }
         }
         if(super.getMonitor()!=null){

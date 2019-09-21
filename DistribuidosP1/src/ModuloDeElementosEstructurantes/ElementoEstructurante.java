@@ -34,11 +34,11 @@ public abstract class ElementoEstructurante extends Thread{
      */
     @Override
     public void run(){
-        if(this.opcion=="Erosion"){
+        if("Erosion".equals(this.opcion)){
             this.erosion();
             return;
         }
-        if(this.opcion=="Dilatacion"){
+        if("Dilatacion".equals(this.opcion)){
             this.dilatacion();
             return;
         }

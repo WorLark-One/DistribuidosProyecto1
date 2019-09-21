@@ -15,6 +15,10 @@ public class ElementoEstructuranteL extends ElementoEstructurante{
         super(matriz);
     }
 
+    public ElementoEstructuranteL(int i, int[][] matriz, GestorParalelo monitor, String opcion) {
+        super(i, matriz, monitor, opcion);
+    }
+
     @Override
     public int[][] erosion() {
         int[][] matriz = super.getMatriz();
@@ -27,6 +31,9 @@ public class ElementoEstructuranteL extends ElementoEstructurante{
                     nuevaMatriz[i][f]=255;
                 }
             }
+        }
+        if(super.getMonitor()!=null){
+            super.getMonitor().uniendoPedasosAMatriz(super.getIdd(), nuevaMatriz);
         }
         return nuevaMatriz;
     }
@@ -43,6 +50,9 @@ public class ElementoEstructuranteL extends ElementoEstructurante{
                     nuevaMatriz[i][f]=0;
                 }
             }
+        }
+        if(super.getMonitor()!=null){
+            super.getMonitor().uniendoPedasosAMatriz(super.getIdd(), nuevaMatriz);
         }
         return nuevaMatriz;
     }

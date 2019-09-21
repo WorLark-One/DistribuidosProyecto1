@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public class GestorParalelo {
     
     private ArrayList<ElementoEstructurante> elementos;
-
+    private int[][] matrizFinal;
+    
     /**
      * Ingrese la cantidad de hilos
      */
@@ -22,30 +23,32 @@ public class GestorParalelo {
         this.elementos = new ArrayList<>();
     }
     
-    public void ejecutarOpcion(int hilos, String opcion, int[][] matriz) throws InterruptedException{
+    public int[][] ejecutarOpcion(int hilos, String opcion, String opcion2, int[][] matriz) throws InterruptedException{
+        this.matrizFinal=new int[matriz.length][matriz[0].length];
+        ArrayList<int[][]> lista= this.separarMatriz(hilos);
         if(opcion.equals("Guion")){
-            for (int i = 0; i < hilos; i++) {
-                this.elementos.add(new ElementoEstructuranteGuion(matriz));
+            for (int i = 0; i < lista.size(); i++) {
+                this.elementos.add(new ElementoEstructuranteGuion(i,lista.get(i), this, opcion2));
             }
         }
         if(opcion.equals("I")){
-            for (int i = 0; i < hilos; i++) {
-                this.elementos.add(new ElementoEstructuranteI(matriz));
+            for (int i = 0; i < lista.size(); i++) {
+                this.elementos.add(new ElementoEstructuranteI(i, lista.get(i), this, opcion2));
             }
         }
         if(opcion.equals("L")){
-            for (int i = 0; i < hilos; i++) {
-                this.elementos.add(new ElementoEstructuranteL(matriz));
+            for (int i = 0; i < lista.size(); i++) {
+                this.elementos.add(new ElementoEstructuranteL(i, lista.get(i), this, opcion2));
             }
         }
         if(opcion.equals("InversaDeL")){
-            for (int i = 0; i < hilos; i++) {
-                this.elementos.add(new ElementoEstructuranteInversaDeL(matriz));
+            for (int i = 0; i < lista.size(); i++) {
+                this.elementos.add(new ElementoEstructuranteInversaDeL(i, lista.get(i), this, opcion2));
             }
         }
         if(opcion.equals("X")){
-            for (int i = 0; i < hilos; i++) {
-                this.elementos.add(new ElementoEstructuranteX(matriz));
+            for (int i = 0; i < lista.size(); i++) {
+                this.elementos.add(new ElementoEstructuranteX(i, lista.get(i), this, opcion2));
             }
         }
         for (int i = 0; i < this.elementos.size(); i++) {
@@ -54,5 +57,18 @@ public class GestorParalelo {
         for (int i = 0; i < this.elementos.size(); i++) {
             this.elementos.get(i).join();
         }
+        return this.matrizFinal;
     }
+    
+    public synchronized void uniendoPedasosAMatriz(int i, int[][] matriz){
+        
+    }
+    
+    public ArrayList<int[][]> separarMatriz(int hilos){
+        ArrayList<int[][]> lista = new ArrayList<>();
+        
+        //metodo para separar
+        
+        return lista;
+    } 
 }

@@ -375,6 +375,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
                             try {
                                 crearArchivo(this.gi.ejecutarOpcion("InversaDeL","Erosion", matrizCompleta));
+                                JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -382,6 +383,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         if (this.jComboBox2.getSelectedItem() == "L") {
                             try {
                                 crearArchivo(this.gi.ejecutarOpcion("L","Erosion", matrizCompleta));
+                                JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -389,6 +391,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         if (this.jComboBox2.getSelectedItem() == "I") {
                             try {
                                 crearArchivo(this.gi.ejecutarOpcion("I","Erosion", matrizCompleta));
+                                JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -396,6 +399,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         if (this.jComboBox2.getSelectedItem() == "Guion") {
                             try {
                                 crearArchivo(this.gi.ejecutarOpcion("Guion","Erosion", matrizCompleta));
+                                JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -403,6 +407,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         if (this.jComboBox2.getSelectedItem() == "X") {
                             try {
                                 crearArchivo(this.gi.ejecutarOpcion("X","Erosion", matrizCompleta));
+                                JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                             }

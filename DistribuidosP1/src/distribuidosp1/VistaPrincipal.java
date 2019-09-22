@@ -7,6 +7,8 @@ package distribuidosp1;
 
 import ModuloDeElementosEstructurantes.ElementoEstructuranteL;
 import ModuloDeElementosEstructurantes.ElementoEstructuranteX;
+import ModuloDeElementosEstructurantes.GestorIterativo;
+import ModuloDeElementosEstructurantes.GestorParalelo;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,6 +18,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringJoiner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -28,6 +32,10 @@ import javax.swing.JOptionPane;
 public class VistaPrincipal extends javax.swing.JFrame {
     private int[][] matrizCompleta;
     private int[][] matrizCompletaAux;
+    private  GestorIterativo gi;
+    private  GestorParalelo gp;
+    private boolean flag = false;
+    
     private String minimo;
     private String dimensiones[] = new String[2];
     /**
@@ -35,6 +43,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
      */
     public VistaPrincipal() {
         initComponents();
+        gi = new GestorIterativo();
+        gp = new GestorParalelo();
     }
 
     /**
@@ -250,82 +260,264 @@ public class VistaPrincipal extends javax.swing.JFrame {
 //                bw.close();
                
 ////            }
+            this.flag =true;
         }catch(Exception exc)
         {
          System.out.println ("Error leyendo archivo");
         }
-        
-        int alto = Integer.parseInt(dimensiones[1]);
-        int ancho = Integer.parseInt(dimensiones[0]);
-        this.matrizCompleta = new int[alto][ancho];
-        this.matrizCompletaAux = new int[alto][ancho];
-        int nivel = 0;
-        
-//        System.out.println("alto "+s.size());
-//        for (int i = 0; i < s.size(); i++) {
-//            for (int j = 0; j < s.get(i).length; j++) {
-//                char a = s.get(i)[j].charAt(0);
-//                nivel = (int) a;
-//                if(nivel>255){
-//                    nivel = 255;
-//                }
-//                this.matrizCompleta[i][j] = nivel;
-//                this.matrizCompletaAux[i][j] = nivel;
-//            }
-//        }
-//        
-        
-        for(int i=0 ; i<alto ; i++){
-            for(int j=0 ; j<ancho ; j++){
-                char a ;
-                if (i==0) {
-                    a = imagen.charAt(i*ancho+j);
+        if (flag == true) {
+            int alto = Integer.parseInt(dimensiones[1]);
+            int ancho = Integer.parseInt(dimensiones[0]);
+            this.matrizCompleta = new int[alto][ancho];
+            this.matrizCompletaAux = new int[alto][ancho];
+            int nivel = 0;
+            for(int i=0 ; i<alto ; i++){
+                for(int j=0 ; j<ancho ; j++){
+                    char a ;
+                    if (i==0) {
+                        a = imagen.charAt(i*ancho+j);
+                    }
+                    else{
+                        a = imagen.charAt(i*ancho+(j+1));
+                    }
+
+
+                    //System.out.println("Char: "+a);
+                    nivel = (int) a;
+                    //System.out.println("nivel: "+nivel);
+
+                    //Esto lo hago por el error para que sea un valor comprendido entre 0-255
+                    //No deber??a pasar esto.  
+                    if(nivel>255){
+                        nivel = 255;
+                    }
+                    this.matrizCompleta[i][j] = nivel;
+                    this.matrizCompletaAux[i][j] = nivel;
                 }
-                else{
-                    a = imagen.charAt(i*ancho+(j+1));
-                }
-                
-                
-                //System.out.println("Char: "+a);
-                nivel = (int) a;
-                //System.out.println("nivel: "+nivel);
-                
-                //Esto lo hago por el error para que sea un valor comprendido entre 0-255
-                //No deber??a pasar esto.  
-                if(nivel>255){
-                    nivel = 255;
-                }
-                this.matrizCompleta[i][j] = nivel;
-                this.matrizCompletaAux[i][j] = nivel;
             }
         }
-        
-        
-        
-           
-        crearArchivo(this.matrizCompleta);
+        else{
+            JOptionPane.showMessageDialog(null, "Error leyendo el archivo","Advertencia ", JOptionPane.WARNING_MESSAGE);
+            System.out.println("lista las matrices");
+        }
+
+        //crearArchivo(this.matrizCompleta);
         //this.imprimirMatriz(matrizCompleta);
-        System.out.println("lista las matrices");
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        int[][] test;
-        ElementoEstructuranteL x = new ElementoEstructuranteL(matrizCompleta);
-        test=x.dilatacion();
-        this.crearArchivo(test);
+        if (flag == false) {
+            JOptionPane.showMessageDialog(null, "Debe cargar un archivo para realizar esta accion","Advertencia ", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+        if (this.jComboBox1.getSelectedItem() != "Escoje un metodo de resolucion") {
+            if (this.jComboBox1.getSelectedItem() == "Paralelo") {
+                if (this.isNumero(this.jTextField1.getText())) {
+                    if (this.jComboBox2.getSelectedItem() == "Escoje un tipo estructural") { 
+                        JOptionPane.showMessageDialog(null, "Debe ingresar un tipo estructural","Advertencia ", JOptionPane.WARNING_MESSAGE);
+                    }
+                    else{
+                        if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
+                            try {
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "InversaDeL", "Erosion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "L") {
+                            try {
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "L", "Erosion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "I") {
+                            try {
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "I", "Erosion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "Guion") {
+                            try {
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "Guion", "Erosion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "X") {
+                            try {
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "X", "Erosion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Debe ingresar un numero de hilos valido","Advertencia ", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+            else{
+                if (this.jComboBox1.getSelectedItem() == "Secuencial") {
+                    if (this.jComboBox2.getSelectedItem() == "Escoje un tipo estructural") { 
+                        JOptionPane.showMessageDialog(null, "Debe ingresar un tipo estructural","Advertencia ", JOptionPane.WARNING_MESSAGE);
+                    }
+                    else{
+                        if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
+                            try {
+                                crearArchivo(this.gi.ejecutarOpcion("InversaDeL","Erosion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "L") {
+                            try {
+                                crearArchivo(this.gi.ejecutarOpcion("L","Erosion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "I") {
+                            try {
+                                crearArchivo(this.gi.ejecutarOpcion("I","Erosion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "Guion") {
+                            try {
+                                crearArchivo(this.gi.ejecutarOpcion("Guion","Erosion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "X") {
+                            try {
+                                crearArchivo(this.gi.ejecutarOpcion("X","Erosion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Debe ingresar un metodo de resolucion para continuar","Advertencia ", JOptionPane.WARNING_MESSAGE);
+        }
+        }
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        int[][] test;
-        ElementoEstructuranteL x = new ElementoEstructuranteL(matrizCompleta);
-        test=x.erosion();
-        this.crearArchivo(test);    
-        this.imprimirMatriz(this.matrizCompleta);
-        this.imprimirMatriz(test);
+        if (flag ==false) {
+            JOptionPane.showMessageDialog(null, "Debe cargar un archivo para realizar esta accion","Advertencia ", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+        if (this.jComboBox1.getSelectedItem() != "Escoje un metodo de resolucion") {
+            if (this.jComboBox1.getSelectedItem() == "Paralelo") {
+                if (this.isNumero(this.jTextField1.getText())) {
+                    if (this.jComboBox2.getSelectedItem() == "Escoje un tipo estructural") { 
+                        JOptionPane.showMessageDialog(null, "Debe ingresar un tipo estructural","Advertencia ", JOptionPane.WARNING_MESSAGE);
+                    }
+                    else{
+                        if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
+                            try {
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "InversaDeL", "Dilatacion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "L") {
+                            try {
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "L", "Dilatacion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "I") {
+                            try {
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "I", "Dilatacion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "Guion") {
+                            try {
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "Guion", "Dilatacion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "X") {
+                            try {
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "X", "Dilatacion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Debe ingresar un numero de hilos valido","Advertencia ", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+            else{
+                if (this.jComboBox1.getSelectedItem() == "Secuencial") {
+                    if (this.jComboBox2.getSelectedItem() == "Escoje un tipo estructural") { 
+                        JOptionPane.showMessageDialog(null, "Debe ingresar un tipo estructural","Advertencia ", JOptionPane.WARNING_MESSAGE);
+                    }
+                    else{
+                        if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
+                            try {
+                                crearArchivo(this.gi.ejecutarOpcion("InversaDeL","Dilatacion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "L") {
+                            try {
+                                crearArchivo(this.gi.ejecutarOpcion("L","Dilatacion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "I") {
+                            try {
+                                crearArchivo(this.gi.ejecutarOpcion("I","Dilatacion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "Guion") {
+                            try {
+                                crearArchivo(this.gi.ejecutarOpcion("Guion","Dilatacion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        if (this.jComboBox2.getSelectedItem() == "X") {
+                            try {
+                                crearArchivo(this.gi.ejecutarOpcion("X","Dilatacion", matrizCompleta));
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Debe ingresar un metodo de resolucion para continuar","Advertencia ", JOptionPane.WARNING_MESSAGE);
+        }
+        }
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -351,35 +543,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------v----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------v-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
    }
    
-   public void erosion(){
-//       
-//        for (int i = 0; i < this.matrizCompleta.length; i++) {
-//            for (int j = 0; j < this.matrizCompleta[i].length; j++) {
-//                int min = 
-//            }
-//        }
-//       
-//        for(int i=0; i<this.matrizCompleta; i++){
-//            for(j=1; j<colu-1; j++){
-//                    int min =255;
-//                    int k[5];
-//                    k[0] = dibu[i][j-1];
-//                    k[1] = dibu[i-1][j];
-//                    k[2] = dibu[i][j];
-//                    k[3] = dibu[i][j+1];
-//                    k[4] = dibu[i+1][j];
-//                    int l;
-//                    for(l=0;l<5;l++){
-//                            if(k[l]<min){
-//                                    min = k[l];
-//                            }
-//                    }
-//                    otra[i][j]=min;
-//            }
-//        }
-   
-   }
-   
+
    private void crearArchivo(int[][] m){
        try {
             String ruta = "pruebaGuardado.pgm";

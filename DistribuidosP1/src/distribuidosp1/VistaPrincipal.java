@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.StringJoiner;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -28,6 +29,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private int[][] matrizCompleta;
     private int[][] matrizCompletaAux;
     private String minimo;
+    private String dimensiones[] = new String[2];
     /**
      * Creates new form VistaPrincipal
      */
@@ -44,23 +46,16 @@ public class VistaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
 
         jButton1.setText("Elegir imagen");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -69,47 +64,79 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("opcion1");
+        jButton2.setText("Erosion");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("opcion2");
+        jButton3.setText("Dilatacion");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escoje un metodo de resolucion", "Secuencial", "Paralelo" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Cantidad de hilos: ");
+
+        jTextField1.setEditable(false);
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escoje un tipo estructural", "L invertida", "L", "I", "Guion", "X" }));
+
+        jLabel2.setText("Opciones");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(90, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(142, 142, 142)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(120, 120, 120)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(110, 110, 110))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(152, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -163,14 +190,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
         String cadenaMagica;
 
         //Indica las dimensiones de la imagen. Ancho y alto.
-        String dimensiones[] = new String[2];
+        
 
         //Indica el valor m??ximo del nivel de gris.
         String nivelGris;
 
         //Representaci??n de toda la imagen.
         String imagen = null;
-
+        ArrayList<String[]> s = new ArrayList<>();
         
         try {
             File abre;
@@ -213,6 +240,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 String str = archivo.readLine();
                 
                 while(str!=null){
+                    //s.add(str.split(""));
                     imagen +=str;
 //                    bw.write(str);
 //                    bw.newLine();
@@ -232,9 +260,31 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.matrizCompleta = new int[alto][ancho];
         this.matrizCompletaAux = new int[alto][ancho];
         int nivel = 0;
+        
+//        System.out.println("alto "+s.size());
+//        for (int i = 0; i < s.size(); i++) {
+//            for (int j = 0; j < s.get(i).length; j++) {
+//                char a = s.get(i)[j].charAt(0);
+//                nivel = (int) a;
+//                if(nivel>255){
+//                    nivel = 255;
+//                }
+//                this.matrizCompleta[i][j] = nivel;
+//                this.matrizCompletaAux[i][j] = nivel;
+//            }
+//        }
+//        
+        
         for(int i=0 ; i<alto ; i++){
             for(int j=0 ; j<ancho ; j++){
-                char a = imagen.charAt(i*ancho+j);
+                char a ;
+                if (i==0) {
+                    a = imagen.charAt(i*ancho+j);
+                }
+                else{
+                    a = imagen.charAt(i*ancho+(j+1));
+                }
+                
                 
                 //System.out.println("Char: "+a);
                 nivel = (int) a;
@@ -253,7 +303,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         
         
            
-        
+        crearArchivo(this.matrizCompleta);
         //this.imprimirMatriz(matrizCompleta);
         System.out.println("lista las matrices");
         
@@ -278,6 +328,18 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.imprimirMatriz(test);
         
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        if (this.jComboBox1.getSelectedItem() == "Paralelo") {
+            this.jTextField1.setEditable(true);
+        }
+        else{
+            this.jTextField1.setText("");
+            this.jTextField1.setEditable(false);
+        }
+        
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
    public void imprimirMatriz(int[][] matriz){
        for (int i = 0; i < matriz.length; i++) {
@@ -329,20 +391,18 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
-            
-            
-            
-            
             bw.write("P5");
             bw.newLine();
             bw.write("# Created by IrfanView");
             bw.newLine();
-            bw.write(m[0].length+" "+m.length);
+            bw.write(dimensiones[0]+" "+dimensiones[1]);
             bw.newLine();
             bw.write("255");
             bw.newLine();
             
             
+            int alto = Integer.parseInt(dimensiones[1]);
+            int ancho = Integer.parseInt(dimensiones[0]);
             //char[] a = new char[m[0].length*m.length];
             
             for (int i = 0; i < m.length; i++) {
@@ -367,6 +427,29 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }
    }
    
+   private boolean isNumero(String cadena) {
+
+        boolean resultado;
+        try {
+            Integer.parseInt(cadena);
+            resultado = true;
+        } catch (NumberFormatException excepcion) {
+            resultado = false;
+        }
+        if (resultado==true) {
+            int a = Integer.parseInt(cadena);
+            if (a>0 && a<= 50) {
+                resultado = true;
+            }
+            else{
+                resultado = false;
+            }
+        }
+        
+
+        return resultado;
+    }
+   
    
 //   private static String concat(char... strs) {
 //    CharJoiner joiner = new StringJoiner(" ");
@@ -380,6 +463,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

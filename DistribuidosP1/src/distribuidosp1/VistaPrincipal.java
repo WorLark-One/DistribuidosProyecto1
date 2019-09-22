@@ -265,7 +265,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         ElementoEstructuranteL x = new ElementoEstructuranteL(matrizCompleta);
         test=x.dilatacion();
         this.crearArchivo(test);
-        //this.imprimirMatriz(test);
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -273,8 +273,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
         int[][] test;
         ElementoEstructuranteL x = new ElementoEstructuranteL(matrizCompleta);
         test=x.erosion();
-        this.crearArchivo(test);
-       // this.imprimirMatriz(test);
+        this.crearArchivo(test);    
+        this.imprimirMatriz(this.matrizCompleta);
+        this.imprimirMatriz(test);
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -353,11 +354,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
                     f ++;
                 }
                 bw.write(String.valueOf(a));
-                if (i!=m.length-1) {
+                if (f!=m[i].length) {
                     bw.newLine();
                 }
             }
-            
             bw.close();
         } catch (Exception e) {
             e.printStackTrace();

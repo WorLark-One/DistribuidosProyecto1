@@ -366,6 +366,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         }
         else{
+            
             JOptionPane.showMessageDialog(null, "Error leyendo el archivo","Advertencia ", JOptionPane.WARNING_MESSAGE);
             System.out.println("lista las matrices");
         }
@@ -390,7 +391,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Debe ingresar un tipo estructural","Advertencia ", JOptionPane.WARNING_MESSAGE);
                     }
                     else{
-                        System.out.println("numero asdasffgsadfasfsdfasfasdfasdrfasfasfasfasfasfasfasfas"+this.jTextField1.getText());
                         if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
                             try {
                                 crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "InversaDeL", "Erosion", matrizCompleta));
@@ -508,7 +508,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Debe ingresar un tipo estructural","Advertencia ", JOptionPane.WARNING_MESSAGE);
                     }
                     else{
-                        System.out.println("hilos; sdfsdpkfjdsfjlkfsdasdfkajlasdfljkdsasdflkjdslkkljj;fkskajdflkjdlfs "+Integer.parseInt(this.jTextField1.getText()));
                         if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
                             try {
                                 crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "InversaDeL", "Dilatacion", matrizCompletaAux));

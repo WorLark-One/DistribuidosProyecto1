@@ -65,7 +65,7 @@ public class ElementoEstructuranteX extends ElementoEstructurante{
                 lista.add(matriz[i+1][f+1]);
                 lista.add(matriz[i][f]);
                 Collections.sort(lista);
-                nuevaMatriz[i][f]=lista.get(lista.get(lista.size()-1));
+                nuevaMatriz[i][f]=lista.get(lista.size()-1);
             }
         }
         if(super.getMonitor()!=null){

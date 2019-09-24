@@ -44,7 +44,6 @@ public abstract class ElementoEstructurante extends Thread{
             this.getMonitor().uniendoPedasosAMatriz(id, matriz);
             return;
         }
-        System.out.println("no elegiste la opcion");
   
     }
 

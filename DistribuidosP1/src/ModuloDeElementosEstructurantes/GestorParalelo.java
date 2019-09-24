@@ -30,7 +30,6 @@ public class GestorParalelo {
         this.elementos = new ArrayList<>();
         this.matriz=matriz;
         lista= this.separarMatriz(hilos);
-        //imprimirMatricesSeparadas();
         if(opcion.equals("Guion")){
             for (int i = 0; i < lista.size(); i++) {
                 this.elementos.add(new ElementoEstructuranteGuion(i,lista.get(i), this, opcion2));
@@ -70,7 +69,6 @@ public class GestorParalelo {
         int largo= (this.matriz.length);
         int a=(anchoReal*(id));
         int b=(anchoReal*(id+1));
-        System.out.println("a:" + a + "  b:" + b);
         for(int i=0; i<matriz.length; i++){
             int p=a;
             int f=1;
@@ -113,27 +111,6 @@ public class GestorParalelo {
         return lista;
     } 
     
-    private void imprimirMatricesSeparadas(){
-        for (int i = 0; i < lista.size(); i++) {
-            System.out.println("Lita: "+i);
-            for (int j = 0; j < lista.get(i).length; j++) {
-                for (int k = 0; k < lista.get(i)[j].length; k++) {
-                    System.out.print(lista.get(i)[j][k]+" ");
-                }
-                System.out.println(" ");
-            }
-        }
-    }
-    
-    private void imprimirMatriz(int[][] matriz){
-        for (int j = 0; j < matriz.length; j++) {
-                for (int k = 0; k < matriz[j].length; k++) {
-                    System.out.print(matriz[j][k]+" ");
-                }
-                System.out.println(" ");
-            }
-    }
-
     public ArrayList<int[][]> getLista() {
         return lista;
     }
@@ -141,8 +118,5 @@ public class GestorParalelo {
     public void setLista(ArrayList<int[][]> lista) {
         this.lista = lista;
     }
-    
-    
-    
     
 }

@@ -35,14 +35,16 @@ public abstract class ElementoEstructurante extends Thread{
     @Override
     public void run(){
         if("Erosion".equals(this.opcion)){
-            this.erosion();
+            matriz=this.erosion();
+            this.getMonitor().uniendoPedasosAMatriz(id, matriz);
             return;
         }
         if("Dilatacion".equals(this.opcion)){
-            this.dilatacion();
+            matriz=this.dilatacion();
+            this.getMonitor().uniendoPedasosAMatriz(id, matriz);
             return;
         }
-        System.out.println("no elegiste la opcion aweonao");
+        System.out.println("no elegiste la opcion");
   
     }
 

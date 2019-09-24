@@ -661,7 +661,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
             int alto = m.length;
             int ancho = m[0].length;
             //char[] a = new char[m[0].length*m.length];
-            
+            this.imprimirMatriz(m);
             for (int i = 0; i < m.length; i++) {
                 char[] a = new char[m[i].length];
                 int f = 0;

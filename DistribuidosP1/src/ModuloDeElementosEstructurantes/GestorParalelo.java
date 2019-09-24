@@ -30,30 +30,30 @@ public class GestorParalelo {
         this.elementos = new ArrayList<>();
         this.matriz=matriz;
         lista= this.separarMatriz(hilos);
-        imprimirMatricesSeparadas();
+        //imprimirMatricesSeparadas();
         if(opcion.equals("Guion")){
             for (int i = 0; i < lista.size(); i++) {
-                this.elementos.add(new ElementoEstructuranteGuion(i+1,lista.get(i), this, opcion2));
+                this.elementos.add(new ElementoEstructuranteGuion(i,lista.get(i), this, opcion2));
             }
         }
         if(opcion.equals("I")){
             for (int i = 0; i < lista.size(); i++) {
-                this.elementos.add(new ElementoEstructuranteI(i+1, lista.get(i), this, opcion2));
+                this.elementos.add(new ElementoEstructuranteI(i, lista.get(i), this, opcion2));
             }
         }
         if(opcion.equals("L")){
             for (int i = 0; i < lista.size(); i++) {
-                this.elementos.add(new ElementoEstructuranteL(i+1, lista.get(i), this, opcion2));
+                this.elementos.add(new ElementoEstructuranteL(i, lista.get(i), this, opcion2));
             }
         }
         if(opcion.equals("InversaDeL")){
             for (int i = 0; i < lista.size(); i++) {
-                this.elementos.add(new ElementoEstructuranteInversaDeL(i+1, lista.get(i), this, opcion2));
+                this.elementos.add(new ElementoEstructuranteInversaDeL(i, lista.get(i), this, opcion2));
             }
         }
         if(opcion.equals("X")){
             for (int i = 0; i < lista.size(); i++) {
-                this.elementos.add(new ElementoEstructuranteX(i+1, lista.get(i), this, opcion2));
+                this.elementos.add(new ElementoEstructuranteX(i, lista.get(i), this, opcion2));
             }
         }
         for (int i = 0; i < this.elementos.size(); i++) {
@@ -68,14 +68,16 @@ public class GestorParalelo {
     public synchronized void uniendoPedasosAMatriz(int id, int[][] matriz){
         int anchoReal = (this.matriz[0].length-2)/this.lista.size();
         int largo= (this.matriz.length);
-        int a=(anchoReal*(id-1));
-        int b=(anchoReal*id);
+        int a=(anchoReal*(id));
+        int b=(anchoReal*(id+1));
+        System.out.println("a:" + a + "  b:" + b);
         for(int i=0; i<matriz.length; i++){
             int p=a;
             int f=1;
-            while(p<=b){
+            while(p<b){
                 this.matrizFinal[i][p]=matriz[i][f];
                 p+=1;
+                f+=1;
             }
         }
     }
@@ -86,21 +88,15 @@ public class GestorParalelo {
         while(anchoReal%hilos!=0){
             hilos-=1;
         }
-        System.out.println("hilos:"+ hilos);
-        System.out.println("largo matriz: " + this.matriz[0].length);
         anchoReal= (anchoReal/hilos);
-        System.out.println("largo matriz divida por los hilos: " + anchoReal);
         int largo= (this.matriz.length);
         int a=0;
         int p=a;
         int b=anchoReal+1;
         int f;
-        System.out.println("hilos"+ hilos);
         for(int k=0; k<hilos; k++){
             int[][] pedazo = new int[this.matriz.length][anchoReal+2];
             p=a;
-            System.out.println("p, b " + p + " " + b + "  " + (b-p));
-            System.out.println("Largo: "+pedazo[0].length);
             for(int i=0; i<matriz.length; i++){
                 p=a; 
                 f=0;
@@ -114,7 +110,6 @@ public class GestorParalelo {
             b=b+anchoReal;
             lista.add(pedazo);
         }
-        System.out.println("largo lista:" + lista.size());
         return lista;
     } 
     
@@ -128,6 +123,15 @@ public class GestorParalelo {
                 System.out.println(" ");
             }
         }
+    }
+    
+    private void imprimirMatriz(int[][] matriz){
+        for (int j = 0; j < matriz.length; j++) {
+                for (int k = 0; k < matriz[j].length; k++) {
+                    System.out.print(matriz[j][k]+" ");
+                }
+                System.out.println(" ");
+            }
     }
 
     public ArrayList<int[][]> getLista() {

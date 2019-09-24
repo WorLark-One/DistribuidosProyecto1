@@ -45,6 +45,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         initComponents();
         gi = new GestorIterativo();
         gp = new GestorParalelo();
+        this.setResizable(false);
     }
 
     /**
@@ -226,7 +227,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
             minimo = archivo.readLine();
             System.out.println("");
-            imagen = " ";
+            imagen = "";
             
 //            String ruta = "pruebaGuardado.pgm";
 //            File filite = new File(ruta);
@@ -248,13 +249,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
 //                
 //                
                 String str = archivo.readLine();
-                
                 while(str!=null){
                     //s.add(str.split(""));
                     imagen +=str;
 //                    bw.write(str);
 //                    bw.newLine();
                     str = archivo.readLine();
+                    //sout = str.split(" ");
+                    //System.out.println("espacio: "+sout.length);
 //                    
                 }
 //                bw.close();
@@ -273,13 +275,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
             int nivel = 0;
             for(int i=0 ; i<alto ; i++){
                 for(int j=0 ; j<ancho ; j++){
-                    char a ;
-                    if (i==0) {
-                        a = imagen.charAt(i*ancho+j);
-                    }
-                    else{
-                        a = imagen.charAt(i*ancho+(j+1));
-                    }
+                    char a = 0 ;
+                    
+                    a = imagen.charAt(i*ancho+j);
+                    
 
 
                     //System.out.println("Char: "+a);
@@ -292,7 +291,77 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         nivel = 255;
                     }
                     this.matrizCompleta[i][j] = nivel;
-                    this.matrizCompletaAux[i][j] = nivel;
+                    //this.matrizCompletaAux[i][j] = nivel;
+                }
+            }
+            //this.matrizCompleta[0][0]=this.matrizCompleta[0][1];
+            this.matrizCompletaAux = new int[alto+2][ancho+2];
+            int ia =0;
+            for(int i=0 ; i<this.matrizCompletaAux.length; i++){
+                int ja=0;
+                for(int j=0 ; j<this.matrizCompletaAux[i].length; j++){
+                    if (i==0) {
+                        if (j==0) {
+                            //esquina superior izquierda (no aumentar contadores)
+                            this.matrizCompletaAux[i][j] = this.matrizCompleta[ia][ja];
+                        }
+                        else{
+                            if (j==this.matrizCompletaAux[i].length-1) {
+                                //esquina superior derecha (no aumentar contadores)
+                                this.matrizCompletaAux[i][j] = this.matrizCompleta[ia][ja];
+                            }
+                            else{
+                                //lado superior
+                                this.matrizCompletaAux[i][j] = this.matrizCompleta[ia][ja];
+                                if (j<this.matrizCompletaAux[i].length-2) {
+                                    ja ++;
+                                }
+                                
+                            }
+                        }
+                        
+                    }
+                    if (i==this.matrizCompletaAux.length-1) {
+                        if (j==0) {
+                            //esquina inferior izquierda (no aumentar contadores)
+                            this.matrizCompletaAux[i][j] = this.matrizCompleta[ia][ja];
+                            
+                        }
+                        else{
+                            if (j==this.matrizCompletaAux[i].length-1) {
+                                //esquina inferior derecha (no aumentar contadores)
+                                this.matrizCompletaAux[i][j] = this.matrizCompleta[ia][ja];
+                            }
+                            else{
+                                //lado inferior
+                                this.matrizCompletaAux[i][j] = this.matrizCompleta[ia][ja];
+                                if (j<this.matrizCompletaAux[i].length-2) {
+                                    ja ++;
+                                }
+                            }
+                        }
+                    }
+                    if (j==0 && i!=0 && i!=this.matrizCompletaAux.length-1) {
+                        //lado izquierdo
+                        this.matrizCompletaAux[i][j] = this.matrizCompleta[ia][ja];
+                        
+                    }
+                    if (j==this.matrizCompletaAux[i].length-1 && i!=0 && i!=this.matrizCompletaAux.length-1) {
+                        //lado derecho
+                        this.matrizCompletaAux[i][j] = this.matrizCompleta[ia][ja];
+                        
+                    }
+                    if (i!=0 && j!=0 && i!=this.matrizCompletaAux.length-1 && j!=this.matrizCompletaAux[i].length-1) {
+                        //rellenado normal
+                        this.matrizCompletaAux[i][j] = this.matrizCompleta[ia][ja];
+                        if (j<this.matrizCompletaAux[i].length-2) {
+                            ja ++;
+                        }
+                    }
+                    
+                }
+                if (i>0 && i<this.matrizCompletaAux.length-2) { // no aumentar contador
+                    ia++;
                 }
             }
         }
@@ -301,8 +370,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
             System.out.println("lista las matrices");
         }
 
+        
         //crearArchivo(this.matrizCompleta);
-        //this.imprimirMatriz(matrizCompleta);
+        //this.imprimirMatriz(matrizCompletaAux);
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -320,6 +390,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Debe ingresar un tipo estructural","Advertencia ", JOptionPane.WARNING_MESSAGE);
                     }
                     else{
+                        System.out.println("numero asdasffgsadfasfsdfasfasdfasdrfasfasfasfasfasfasfasfas"+this.jTextField1.getText());
                         if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
                             try {
                                 crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "InversaDeL", "Erosion", matrizCompleta));
@@ -437,9 +508,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Debe ingresar un tipo estructural","Advertencia ", JOptionPane.WARNING_MESSAGE);
                     }
                     else{
+                        System.out.println("hilos; sdfsdpkfjdsfjlkfsdasdfkajlasdfljkdsasdflkjdslkkljj;fkskajdflkjdlfs "+Integer.parseInt(this.jTextField1.getText()));
                         if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
                             try {
-                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "InversaDeL", "Dilatacion", matrizCompleta));
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "InversaDeL", "Dilatacion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -447,7 +519,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "L") {
                             try {
-                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "L", "Dilatacion", matrizCompleta));
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "L", "Dilatacion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -455,7 +527,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "I") {
                             try {
-                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "I", "Dilatacion", matrizCompleta));
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "I", "Dilatacion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -463,7 +535,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "Guion") {
                             try {
-                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "Guion", "Dilatacion", matrizCompleta));
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "Guion", "Dilatacion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -471,7 +543,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "X") {
                             try {
-                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "X", "Dilatacion", matrizCompleta));
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "X", "Dilatacion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -554,6 +626,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
    public void imprimirMatriz(int[][] matriz){
+       System.out.println("matriz");
+       System.out.println("largo: "+matriz.length);
+       System.out.println("ancho: "+matriz[0].length);
        for (int i = 0; i < matriz.length; i++) {
            for (int j = 0; j < matriz[i].length; j++) {
                System.out.print(matriz[i][j]+" ");
@@ -579,14 +654,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
             bw.newLine();
             bw.write("# Created by IrfanView");
             bw.newLine();
-            bw.write(dimensiones[0]+" "+dimensiones[1]);
+            bw.write(m[0].length+" "+m.length);
             bw.newLine();
             bw.write("255");
             bw.newLine();
-            
-            
-            int alto = Integer.parseInt(dimensiones[1]);
-            int ancho = Integer.parseInt(dimensiones[0]);
+            int alto = m.length;
+            int ancho = m[0].length;
             //char[] a = new char[m[0].length*m.length];
             
             for (int i = 0; i < m.length; i++) {

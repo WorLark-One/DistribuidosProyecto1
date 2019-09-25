@@ -31,7 +31,6 @@ public class ElementoEstructuranteX extends ElementoEstructurante{
     @Override
     public int[][] erosion() {
         int[][] matriz = super.getMatriz();
-        System.out.println("f:" + f + " limite:" + limite);
         int[][] nuevaMatriz = new int[matriz.length][limite];
         for (int i = 1; i < matriz.length-1; i++) {
             int p=f+1;
@@ -46,6 +45,7 @@ public class ElementoEstructuranteX extends ElementoEstructurante{
                 nuevaMatriz[i][p]=lista.get(0);
                 p++;
             }
+            
         }
 
         return nuevaMatriz;

@@ -72,26 +72,22 @@ public class GestorParalelo {
                 p+=1;
             }
         }
+        
     }
     
     public void separarMatriz(int hilos){
         this.f = new ArrayList<>();
         this.limite = new ArrayList<>();
         int anchoReal = (this.matriz[0].length-2);
-        System.out.println(hilos);
         while(anchoReal%hilos!=0){
             hilos-=1;
         }
-        System.out.println(hilos);
-        System.out.println(anchoReal);
         anchoReal= (anchoReal/hilos);
-        System.out.println(anchoReal);
         int a=0;
         int b=anchoReal+1;
         for(int k=0; k<hilos; k++){
             this.f.add(a);
             this.limite.add(b);
-            System.out.println("f:" + f + "  limite:" + limite);
             a=b-1;
             b=b+anchoReal;
         }

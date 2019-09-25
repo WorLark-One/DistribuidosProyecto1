@@ -17,7 +17,7 @@ public class ElementoEstructuranteX extends ElementoEstructurante{
 
     
     public ElementoEstructuranteX(int[][] matriz) {
-        super(matriz, 1, (matriz[0].length-1));
+        super(matriz, 0, (matriz[0].length-1));
     }
 
     public ElementoEstructuranteX(int i, int f, int limite, int[][] matriz, GestorParalelo monitor, String opcion) {

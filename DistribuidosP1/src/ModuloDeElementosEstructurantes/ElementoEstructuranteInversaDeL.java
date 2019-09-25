@@ -16,7 +16,7 @@ public class ElementoEstructuranteInversaDeL extends ElementoEstructurante{
     
 
     public ElementoEstructuranteInversaDeL(int[][] matriz) {
-        super(matriz, 1, (matriz[0].length-1));
+        super(matriz, 0, (matriz[0].length-1));
     }
 
     public ElementoEstructuranteInversaDeL(int i, int f, int limite, int[][] matriz, GestorParalelo monitor, String opcion) {
@@ -45,7 +45,7 @@ public class ElementoEstructuranteInversaDeL extends ElementoEstructurante{
     @Override
     public int[][] dilatacion() {
         int[][] matriz = super.getMatriz();
-        int[][] nuevaMatriz = new int[matriz.length][matriz[0].length];
+        int[][] nuevaMatriz = new int[matriz.length][limite];
         for (int i = 1; i < matriz.length-1; i++) {
             int p=f+1;
             while(p<limite){

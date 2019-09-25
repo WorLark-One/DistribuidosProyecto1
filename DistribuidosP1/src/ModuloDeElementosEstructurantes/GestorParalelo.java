@@ -66,8 +66,8 @@ public class GestorParalelo {
     
     public synchronized void uniendoPedasosAMatriz(int id, int inicio, int limite, int[][] matriz){
         for(int i=0; i<matriz.length; i++){
-            int p=inicio;
-            while(p<limite-1){
+            int p=inicio+1;
+            while(p<limite){
                 this.matrizFinal[i][p]=matriz[i][p];
                 p+=1;
             }

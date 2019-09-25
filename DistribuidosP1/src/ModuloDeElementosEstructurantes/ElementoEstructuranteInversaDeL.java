@@ -16,11 +16,11 @@ public class ElementoEstructuranteInversaDeL extends ElementoEstructurante{
     
 
     public ElementoEstructuranteInversaDeL(int[][] matriz) {
-        super(matriz);
+        super(matriz, 1, (matriz[0].length-1));
     }
 
-    public ElementoEstructuranteInversaDeL(int i, int[][] matriz, GestorParalelo monitor, String opcion) {
-        super(i, matriz, monitor, opcion);
+    public ElementoEstructuranteInversaDeL(int i, int f, int limite, int[][] matriz, GestorParalelo monitor, String opcion) {
+        super(i, matriz, monitor, opcion, f , limite);
     }
 
     @Override
@@ -28,17 +28,16 @@ public class ElementoEstructuranteInversaDeL extends ElementoEstructurante{
         int[][] matriz = super.getMatriz();
         int[][] nuevaMatriz = new int[matriz.length][matriz[0].length];
         for (int i = 1; i < matriz.length-1; i++) {
-            for (int f = 1; f < matriz[i].length-1; f++) {
+            int p=f+1;
+            while(p<limite){
                 ArrayList<Integer> lista = new ArrayList<>();
-                lista.add(matriz[i][f+1]);
-                lista.add(matriz[i+1][f]);
-                lista.add(matriz[i][f]);
+                lista.add(matriz[i][p+1]);
+                lista.add(matriz[i+1][p]);
+                lista.add(matriz[i][p]);
                 Collections.sort(lista);
-                nuevaMatriz[i][f]=lista.get(0);
+                nuevaMatriz[i][p]=lista.get(0);
+                p++;
             }
-        }
-        if(super.getMonitor()!=null){
-            super.getMonitor().uniendoPedasosAMatriz(super.getIdd(), nuevaMatriz);
         }
         return nuevaMatriz;
     }
@@ -48,17 +47,16 @@ public class ElementoEstructuranteInversaDeL extends ElementoEstructurante{
         int[][] matriz = super.getMatriz();
         int[][] nuevaMatriz = new int[matriz.length][matriz[0].length];
         for (int i = 1; i < matriz.length-1; i++) {
-            for (int f = 1; f < matriz[i].length-1; f++) {
+            int p=f+1;
+            while(p<limite){
                 ArrayList<Integer> lista = new ArrayList<>();
-                lista.add(matriz[i][f+1]);
-                lista.add(matriz[i+1][f]);
-                lista.add(matriz[i][f]);
+                lista.add(matriz[i][p+1]);
+                lista.add(matriz[i+1][p]);
+                lista.add(matriz[i][p]);
                 Collections.sort(lista);
-                nuevaMatriz[i][f]=lista.get(lista.size()-1);
+                nuevaMatriz[i][p]=lista.get(lista.size()-1);
+                p++;
             }
-        }
-        if(super.getMonitor()!=null){
-            super.getMonitor().uniendoPedasosAMatriz(super.getIdd(), nuevaMatriz);
         }
         return nuevaMatriz;
     }

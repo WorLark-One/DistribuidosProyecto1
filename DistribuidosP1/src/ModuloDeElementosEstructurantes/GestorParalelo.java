@@ -16,7 +16,8 @@ public class GestorParalelo {
     private ArrayList<ElementoEstructurante> elementos;
     private int[][] matrizFinal;
     private int[][] matriz;
-    private ArrayList<int[][]> lista;
+    private ArrayList<Integer> f;
+    private ArrayList<Integer> limite;
     /**
      * Ingrese la cantidad de hilos
      */
@@ -25,34 +26,33 @@ public class GestorParalelo {
     }
     
     public int[][] ejecutarOpcion(int hilos, String opcion, String opcion2, int[][] matriz) throws InterruptedException{
-        this.lista = new ArrayList<>();
         this.matrizFinal=new int[matriz.length][matriz[0].length];
         this.elementos = new ArrayList<>();
         this.matriz=matriz;
-        lista= this.separarMatriz(hilos);
+        this.separarMatriz(hilos);
         if(opcion.equals("Guion")){
-            for (int i = 0; i < lista.size(); i++) {
-                this.elementos.add(new ElementoEstructuranteGuion(i,lista.get(i), this, opcion2));
+            for (int i = 0; i < f.size(); i++) {
+                this.elementos.add(new ElementoEstructuranteGuion(i, f.get(i), limite.get(i), this.matriz, this, opcion2));
             }
         }
         if(opcion.equals("I")){
-            for (int i = 0; i < lista.size(); i++) {
-                this.elementos.add(new ElementoEstructuranteI(i, lista.get(i), this, opcion2));
+            for (int i = 0; i < f.size(); i++) {
+                this.elementos.add(new ElementoEstructuranteI(i, f.get(i), limite.get(i), this.matriz, this, opcion2));
             }
         }
         if(opcion.equals("L")){
-            for (int i = 0; i < lista.size(); i++) {
-                this.elementos.add(new ElementoEstructuranteL(i, lista.get(i), this, opcion2));
+            for (int i = 0; i < f.size(); i++) {
+                this.elementos.add(new ElementoEstructuranteL(i, f.get(i), limite.get(i), this.matriz, this, opcion2));
             }
         }
         if(opcion.equals("InversaDeL")){
-            for (int i = 0; i < lista.size(); i++) {
-                this.elementos.add(new ElementoEstructuranteInversaDeL(i, lista.get(i), this, opcion2));
+            for (int i = 0; i < f.size(); i++) {
+                this.elementos.add(new ElementoEstructuranteInversaDeL(i, f.get(i), limite.get(i), this.matriz, this, opcion2));
             }
         }
         if(opcion.equals("X")){
-            for (int i = 0; i < lista.size(); i++) {
-                this.elementos.add(new ElementoEstructuranteX(i, lista.get(i), this, opcion2));
+            for (int i = 0; i < f.size(); i++) {
+                this.elementos.add(new ElementoEstructuranteX(i, f.get(i), limite.get(i), this.matriz, this, opcion2));
             }
         }
         for (int i = 0; i < this.elementos.size(); i++) {
@@ -64,59 +64,36 @@ public class GestorParalelo {
         return this.matrizFinal;
     }
     
-    public synchronized void uniendoPedasosAMatriz(int id, int[][] matriz){
-        int anchoReal = (this.matriz[0].length-2)/this.lista.size();
-        int largo= (this.matriz.length);
-        int a=(anchoReal*(id));
-        int b=(anchoReal*(id+1));
+    public synchronized void uniendoPedasosAMatriz(int id, int inicio, int limite, int[][] matriz){
         for(int i=0; i<matriz.length; i++){
-            int p=a;
-            int f=1;
-            while(p<b){
-                this.matrizFinal[i][p]=matriz[i][f];
+            int p=inicio;
+            while(p<limite-1){
+                this.matrizFinal[i][p]=matriz[i][p];
                 p+=1;
-                f+=1;
             }
         }
     }
     
-    public ArrayList<int[][]> separarMatriz(int hilos){
-        this.lista = new ArrayList<>();
+    public void separarMatriz(int hilos){
+        this.f = new ArrayList<>();
+        this.limite = new ArrayList<>();
         int anchoReal = (this.matriz[0].length-2);
+        System.out.println(hilos);
         while(anchoReal%hilos!=0){
             hilos-=1;
         }
+        System.out.println(hilos);
+        System.out.println(anchoReal);
         anchoReal= (anchoReal/hilos);
-        int largo= (this.matriz.length);
+        System.out.println(anchoReal);
         int a=0;
-        int p=a;
         int b=anchoReal+1;
-        int f;
         for(int k=0; k<hilos; k++){
-            int[][] pedazo = new int[this.matriz.length][anchoReal+2];
-            p=a;
-            for(int i=0; i<matriz.length; i++){
-                p=a; 
-                f=0;
-                while(p<=b){
-                    pedazo[i][f]=matriz[i][p];
-                    p+=1;
-                    f++;
-                }
-            }
+            this.f.add(a);
+            this.limite.add(b);
+            System.out.println("f:" + f + "  limite:" + limite);
             a=b-1;
             b=b+anchoReal;
-            lista.add(pedazo);
         }
-        return lista;
-    } 
-    
-    public ArrayList<int[][]> getLista() {
-        return lista;
     }
-
-    public void setLista(ArrayList<int[][]> lista) {
-        this.lista = lista;
-    }
-    
 }

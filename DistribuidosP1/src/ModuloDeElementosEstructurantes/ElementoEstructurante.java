@@ -15,17 +15,23 @@ public abstract class ElementoEstructurante extends Thread{
     private int[][] matriz;
     private GestorParalelo monitor;
     private String opcion;
+    protected int f;
+    protected int limite;
 
-    public ElementoEstructurante(int id, int[][] matriz, GestorParalelo monitor, String opcion) {
+    public ElementoEstructurante(int id, int[][] matriz, GestorParalelo monitor, String opcion, int f, int limite) {
         this.id=id;
         this.matriz = matriz;
         this.monitor=monitor;
         this.opcion=opcion;
+        this.f=f;
+        this.limite=limite;
     }
     
-    public ElementoEstructurante(int[][] matriz) {
+    public ElementoEstructurante(int[][] matriz, int f, int limite) {
         this.matriz = matriz;
         this.monitor=null;
+        this.f=f;
+        this.limite=limite;
         this.id=0;
     }
     
@@ -36,12 +42,12 @@ public abstract class ElementoEstructurante extends Thread{
     public void run(){
         if("Erosion".equals(this.opcion)){
             matriz=this.erosion();
-            this.getMonitor().uniendoPedasosAMatriz(id, matriz);
+            this.getMonitor().uniendoPedasosAMatriz(id, f, limite, matriz);
             return;
         }
         if("Dilatacion".equals(this.opcion)){
             matriz=this.dilatacion();
-            this.getMonitor().uniendoPedasosAMatriz(id, matriz);
+            this.getMonitor().uniendoPedasosAMatriz(id, f , limite, matriz);
             return;
         }
   
@@ -54,6 +60,16 @@ public abstract class ElementoEstructurante extends Thread{
     public GestorParalelo getMonitor() {
         return monitor;
     }
+
+    public int getF() {
+        return f;
+    }
+
+    public int getLimite() {
+        return limite;
+    }
+    
+    
 
     /**
      * 

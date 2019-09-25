@@ -154,59 +154,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
-//        boolean flag1 = false;
-//        try{
-//            File abre;
-//            JFileChooser file = new JFileChooser();
-//            file.showOpenDialog(this);
-//            abre = file.getSelectedFile();
-//            if(abre!=null){     
-//                FileReader archivos=new FileReader(abre);
-//                String tipo = file.getTypeDescription(abre);
-//                if(!(("Archivo PGM").equals(tipo))){
-//                    JOptionPane.showMessageDialog(null, "El tipo del archivo no era una imagen", "Mensaje de advertencia", JOptionPane.WARNING_MESSAGE);
-//                    return;
-//                }
-//                ImageIcon i = new ImageIcon(abre.getAbsolutePath()); 
-//                Image img = i.getImage();
-//                img = img.getScaledInstance(400, 800, java.awt.Image.SCALE_SMOOTH);
-//                i = new ImageIcon(img);
-//                JLabel imagen = new JLabel();
-//                imagen.setIcon(i);
-//                imagen.setBounds(0, 0,400,800);
-//                this.jPanel1.add(imagen);
-//                this.pack();
-//                this.repaint();
-//                flag1 = true;
-//            }    
-//        }
-//        catch(IOException ex){
-//            JOptionPane.showMessageDialog(null,ex+"" + "\nNo se ha encontrado el archivo", "ADVERTENCIA!!!",JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//        if (flag1) {
-//            JOptionPane.showMessageDialog(null, "La imagen fue guardada con ??xito");
-//        }
-//        else{
-//            JOptionPane.showMessageDialog(null, "El evento fue cancelado");
-//        }
 
-
-        //DATOS DE LA IMAGEN
- 
-        //P2: Los valores de los p??xeles vienen en formato ASCII (es decir como cifras num??ricas enteras entre 0 y 255).
-        //P5: Los valores de los p??xeles vienen en formato Binario (es decir la informaci??n de cada p??xel viene expresada en un byte).
         String cadenaMagica;
-
-        //Indica las dimensiones de la imagen. Ancho y alto.
-        
-
-        //Indica el valor m??ximo del nivel de gris.
         String nivelGris;
 
-        //Representaci??n de toda la imagen.
         String imagen = null;
         ArrayList<String[]> s = new ArrayList<>();
         
@@ -228,40 +179,16 @@ public class VistaPrincipal extends javax.swing.JFrame {
             minimo = archivo.readLine();
             System.out.println("");
             imagen = "";
-            
-//            String ruta = "pruebaGuardado.pgm";
-//            File filite = new File(ruta);
-////            // Si el archivo no existe es creado
-////            
-//            if (!filite .exists()) {
-//                filite .createNewFile();
-//            }
-//            FileWriter fw = new FileWriter(filite );
-//            BufferedWriter bw = new BufferedWriter(fw);
-//                bw.write(cadenaMagica);
-//                bw.newLine();
-//                bw.write(a);
-//                bw.newLine();
-//                bw.write(dimensiones[0]+" "+dimensiones[1]);
-//                bw.newLine();
-//                bw.write(minimo);
-//                bw.newLine();
-//                
-//                
-                String str = archivo.readLine();
-                while(str!=null){
-                    //s.add(str.split(""));
-                    imagen +=str;
-//                    bw.write(str);
-//                    bw.newLine();
-                    str = archivo.readLine();
-                    //sout = str.split(" ");
-                    //System.out.println("espacio: "+sout.length);
-//                    
-                }
-//                bw.close();
-               
-////            }
+             
+            String str = archivo.readLine();
+            while(str!=null){
+
+                imagen +=str;
+
+                str = archivo.readLine();
+
+            }
+
             this.flag =true;
         }catch(Exception exc)
         {
@@ -275,18 +202,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
             int nivel = 0;
             for(int i=0 ; i<alto ; i++){
                 for(int j=0 ; j<ancho ; j++){
-                    char a = 0 ;
+                    char a;
                     
                     a = imagen.charAt(i*ancho+j);
-                    
 
-
-                    //System.out.println("Char: "+a);
                     nivel = (int) a;
-                    //System.out.println("nivel: "+nivel);
-
-                    //Esto lo hago por el error para que sea un valor comprendido entre 0-255
-                    //No deber??a pasar esto.  
+ 
                     if(nivel>255){
                         nivel = 255;
                     }
@@ -364,16 +285,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
                     ia++;
                 }
             }
+            JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
         }
         else{
             
             JOptionPane.showMessageDialog(null, "Error leyendo el archivo","Advertencia ", JOptionPane.WARNING_MESSAGE);
-            System.out.println("lista las matrices");
         }
 
-        
-        //crearArchivo(this.matrizCompleta);
-        //this.imprimirMatriz(matrizCompletaAux);
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -393,7 +311,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                     else{
                         if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
                             try {
-                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "InversaDeL", "Erosion", matrizCompleta));
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "InversaDeL", "Erosion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -401,7 +319,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "L") {
                             try {
-                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "L", "Erosion", matrizCompleta));
+                                long start = System.currentTimeMillis();
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "L", "Erosion", matrizCompletaAux));
+                                long end = System.currentTimeMillis();
+                                long resta = end - start;
+                                System.out.println("Tiempo en milisegundos L en paralelo: "+resta);
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -409,7 +331,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "I") {
                             try {
-                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "I", "Erosion", matrizCompleta));
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "I", "Erosion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -417,7 +339,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "Guion") {
                             try {
-                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "Guion", "Erosion", matrizCompleta));
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "Guion", "Erosion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -425,7 +347,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "X") {
                             try {
-                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "X", "Erosion", matrizCompleta));
+                                long start = System.currentTimeMillis();
+                                crearArchivo(this.gp.ejecutarOpcion(Integer.parseInt(this.jTextField1.getText()), "X", "Erosion", matrizCompletaAux));
+                                long end = System.currentTimeMillis();
+                                long resta = end - start;
+                                System.out.println("Tiempo en milisegundos x en paralelo: "+resta);
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -445,7 +371,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                     else{
                         if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
                             try {
-                                crearArchivo(this.gi.ejecutarOpcion("InversaDeL","Erosion", matrizCompleta));
+                                crearArchivo(this.gi.ejecutarOpcion("InversaDeL","Erosion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -453,7 +379,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "L") {
                             try {
-                                crearArchivo(this.gi.ejecutarOpcion("L","Erosion", matrizCompleta));
+                                long start = System.currentTimeMillis();
+                                crearArchivo(this.gi.ejecutarOpcion("L","Erosion", matrizCompletaAux));
+                                long end = System.currentTimeMillis();
+                                long resta = end - start;
+                                System.out.println("Tiempo en milisegundos L en secuencial: "+resta);
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -461,7 +391,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "I") {
                             try {
-                                crearArchivo(this.gi.ejecutarOpcion("I","Erosion", matrizCompleta));
+                                crearArchivo(this.gi.ejecutarOpcion("I","Erosion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -469,7 +399,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "Guion") {
                             try {
-                                crearArchivo(this.gi.ejecutarOpcion("Guion","Erosion", matrizCompleta));
+                                crearArchivo(this.gi.ejecutarOpcion("Guion","Erosion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -477,8 +407,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "X") {
                             try {
-                                crearArchivo(this.gi.ejecutarOpcion("X","Erosion", matrizCompleta));
-                                JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
+                                long start = System.currentTimeMillis();
+                                crearArchivo(this.gi.ejecutarOpcion("X","Erosion", matrizCompletaAux));
+                                long end = System.currentTimeMillis();
+                                long resta = end - start;
+                                System.out.println("Tiempo en milisegundos x en secuencial: "+resta);
+                                JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito"); 
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -562,7 +496,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                     else{
                         if (this.jComboBox2.getSelectedItem() == "L invertida" ) {
                             try {
-                                crearArchivo(this.gi.ejecutarOpcion("InversaDeL","Dilatacion", matrizCompleta));
+                                crearArchivo(this.gi.ejecutarOpcion("InversaDeL","Dilatacion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -570,7 +504,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "L") {
                             try {
-                                crearArchivo(this.gi.ejecutarOpcion("L","Dilatacion", matrizCompleta));
+                                crearArchivo(this.gi.ejecutarOpcion("L","Dilatacion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -578,7 +512,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "I") {
                             try {
-                                crearArchivo(this.gi.ejecutarOpcion("I","Dilatacion", matrizCompleta));
+                                crearArchivo(this.gi.ejecutarOpcion("I","Dilatacion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -586,7 +520,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "Guion") {
                             try {
-                                crearArchivo(this.gi.ejecutarOpcion("Guion","Dilatacion", matrizCompleta));
+                                crearArchivo(this.gi.ejecutarOpcion("Guion","Dilatacion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -594,7 +528,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                         }
                         if (this.jComboBox2.getSelectedItem() == "X") {
                             try {
-                                crearArchivo(this.gi.ejecutarOpcion("X","Dilatacion", matrizCompleta));
+                                crearArchivo(this.gi.ejecutarOpcion("X","Dilatacion", matrizCompletaAux));
                                 JOptionPane.showMessageDialog(null, "La imagen fue guardada con exito");
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(VistaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -690,14 +624,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
         return resultado;
     }
    
-   
-//   private static String concat(char... strs) {
-//    CharJoiner joiner = new StringJoiner(" ");
-//    for (char str : strs) {
-//        joiner.add(str);
-//    }
-//    return joiner.toString();
-//}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

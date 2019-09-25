@@ -180,6 +180,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
             System.out.println("");
             imagen = "";
              
+            long start = System.currentTimeMillis();
             String str = archivo.readLine();
             while(str!=null){
 
@@ -188,7 +189,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 str = archivo.readLine();
 
             }
-
+            long end = System.currentTimeMillis();
+            long resta = end - start;
+            System.out.println("Tiempo en milisegundos de la lectura de imagen: "+resta);
             this.flag =true;
         }catch(Exception exc)
         {
